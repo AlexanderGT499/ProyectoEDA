@@ -1,0 +1,19 @@
+{
+  "player": {
+    "id": 1,
+    "life": 100,
+    "max_life": 100,
+    "score": 0,
+    "potions": 2,
+    "floor": 1,
+    "current_room": "START"
+  },
+  "room": {
+    "id": "START",
+    "type": "start"
+  },
+  "next_rooms": ["A", "B"],
+  "enemy": null,
+  "message": "Bienvenido a Dungeon of Decisions",
+  "game_over": false
+}
