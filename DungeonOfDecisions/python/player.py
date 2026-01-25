@@ -1,57 +1,55 @@
 class Player:
-    
     def __init__(self, player_id):
         self.id = player_id
         self.max_life = 100
-        self.life=100
+        self.life = 100
         self.score = 0
-        self.current_node=None
+        self.current_node = None
         self.potions = 2
         self.floor = 1
-    
-    def take_damage(self, amount):
-        self.life-=amount
-        if self.life<0:
-            self.life=0
 
-    def healt(self, amount):
-        self.life+=amount
+    def take_damage(self, amount):
+        self.life -= amount
+        if self.life < 0:
+            self.life = 0
+
+    def heal(self, amount):
+        self.life += amount
         if self.life > self.max_life:
             self.life = self.max_life
-    
+
     def add_score(self, points):
         self.score += points
 
-    def set_position(self,node):
-        self.current_node=node
-    
+    def set_position(self, node):
+        self.current_node = node
+
     def get_status(self):
-        return{
-            "id":self.id,
-            "life":self.life,
-            "score":self.score,
-            "current_node": self.current_node
+        return {
+            "id": self.id,
+            "life": self.life,
+            "score": self.score,
+            "current_node": self.current_node,
+            "potions": self.potions,
+            "floor": self.floor
         }
 
     def use_potion(self):
         if self.potions > 0 and self.life < self.max_life:
-            healt_amount = 20 if self.life <= 80 else 10
-            self.healt(healt_amount)
+            heal_amount = 20 if self.life <= 80 else 10
+            self.heal(heal_amount)
             self.potions -= 1
             self.score -= 2
-            print(f"Pocion usada(+ {healt_amount} vida)")
+            print(f"Poción usada (+{heal_amount} vida)")
         else:
-            print(f"No puedes usar la pocion ahora")
-    
-    def avanced_floor(self):
+            print("No puedes usar poción ahora")
+
+    def advance_floor(self):
         self.floor += 1
         self.add_score(5)
-    
+
     def is_alive(self):
         return self.life > 0
-        
-
-
 
 
 
