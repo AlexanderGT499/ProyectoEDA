@@ -1,4 +1,5 @@
 import random
+import json
 
 ENEMIES = {
     "weak": {"Life": 20, "Damage": 10, "Score": 10},
@@ -7,6 +8,13 @@ ENEMIES = {
     "boss": {"Life": 100, "Damage": 25, "Score": 50},
 }
 
+PLAYER_ACTION_PATH = "../data/player_action.json"
+
+def read_combat_action():
+    with open(PLAYER_ACTION_PATH, "r") as f:
+        data = json.load(f)
+        return data["combat_action"]
+
 def fight(player, enemy_type):
     enemy = ENEMIES[enemy_type].copy()
 
@@ -14,22 +22,33 @@ def fight(player, enemy_type):
     enemy["Life"] = int(enemy["Life"] * floor_modifier)
     enemy["Damage"] = int(enemy["Damage"] * floor_modifier)
 
-    print(f"Combate contra {enemy_type.upper()}")
-
     defend_next = False
 
     while enemy["Life"] > 0 and player.is_alive():
-        action = input("Atacar(A) / Defender(D): ").lower()
+        action = read_combat_action()
 
-        if action == "a":
+        if action is None:
+            continue
+
+        # ATAQUE
+        if action == "attack":
             enemy["Life"] -= 20
-            print("Has atacado al enemigo")
 
-        elif action == "d":
+        # DEFENSA
+        elif action == "defend":
             defend_next = True
             player.add_score(2)
-            print("Has bloqueado el ataque")
 
+        # RESET acción de combate
+        with open(PLAYER_ACTION_PATH, "w") as f:
+            json.dump({
+                "action": "none",
+                "target_room": None,
+                "combat_action": None,
+                "use_potion": False
+            }, f, indent=4)
+
+        # TURNO DEL ENEMIGO
         if enemy["Life"] > 0:
             damage = enemy["Damage"]
             if defend_next:
@@ -37,14 +56,10 @@ def fight(player, enemy_type):
                 defend_next = False
 
             player.take_damage(damage)
-            print(f"Recibes {damage} de daño")
 
     if player.is_alive():
         player.add_score(enemy["Score"])
         player.advance_floor()
-        print("Enemigo derrotado")
         return True
     else:
-        print("Has muerto")
         return False
-
