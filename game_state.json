@@ -1,0 +1,20 @@
+{
+    "jugador": {
+        "vida": 100,
+        "puntaje": 0,
+        "nodo_actual": 0,
+        "vivo": true,
+        "pociones": 0
+    },
+    "mensaje_sistema": "...",
+    "texto_evento": "TURNO DEL JUGADOR 2\n\nLas puertas del Dungeon se cierran tras de ti.\nSolo queda la oscuridad y el eco de tus pasos.",
+    "imagen_evento_id": 0,
+    "fondo_id": 0,
+    "opciones_disponibles": [
+        {
+            "texto": "Adentrarse en la oscuridad",
+            "accion": "elegir_opcion",
+            "target_id": 0
+        }
+    ]
+}
